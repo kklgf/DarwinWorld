@@ -15,8 +15,7 @@ public class Animal extends AbstractAnimal {
 
     @Override
     public IAnimal multiply(IAnimal other) throws Exception {
-        Vector2d childPosition = this.getPosition();
-        childPosition.add(MyRandom.getRandomMoveVector());
+        Vector2d childPosition = this.getPosition().add(MyRandom.getRandomMoveVector());
         Orientation childOrientation = MyRandom.getRandomOrientation();
         Gen childGen = this.getGen().combine(other.getGen());
         Integer childEnergy = this.looseEnergyMultiplying() + ((AbstractAnimal) other).looseEnergyMultiplying();

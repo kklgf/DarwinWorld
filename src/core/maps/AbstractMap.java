@@ -33,8 +33,8 @@ public abstract class AbstractMap implements IMap, IWorldMap{
             }
     }
     public void run() throws Exception {
-        Collection<TreeSet<IAnimal>> animalsSnap = animals.values();
-        for (TreeSet<IAnimal> animalsInCell : new ArrayList<TreeSet<IAnimal>>(animalsSnap))
+        ArrayList<TreeSet<IAnimal>> animalsSnap = new ArrayList<TreeSet<IAnimal>>(animals.values());
+        for (TreeSet<IAnimal> animalsInCell : animalsSnap)
             for (IAnimal animal : new TreeSet<IAnimal>(animalsInCell)){
                 removeAnimal(animal);
                 animal.move();
@@ -56,8 +56,9 @@ public abstract class AbstractMap implements IMap, IWorldMap{
         }
     }
     public void multiply() throws Exception {
-        for (TreeSet<IAnimal> animalsInCell : animals.values()) {
+        for (TreeSet<IAnimal> animalsInCell : new ArrayList<TreeSet<IAnimal>>(animals.values())) {
             while (animalsInCell.size() > 1){
+                animalsInCell = new TreeSet<IAnimal>(animalsInCell);
                 try{
                     IAnimal male = animalsInCell.pollFirst();
                     while (!male.canMultiply())
@@ -65,7 +66,10 @@ public abstract class AbstractMap implements IMap, IWorldMap{
                     IAnimal female = animalsInCell.pollFirst();
                     while (!female.canMultiply())
                         female = animalsInCell.pollFirst();
-                    male.multiply(female);
+                    IAnimal child = male.multiply(female);
+                    if (this.didThisAnimalJustJumpedFromTheEdgeOfTheWolrd(child))
+                        this.teleportTheAnimalBackFromTheAbbys(child);
+                    addAnimal(child);
                 } catch (NullPointerException e){
                     break;
                 }
@@ -142,7 +146,7 @@ public abstract class AbstractMap implements IMap, IWorldMap{
     }
 
     public void addAnimal(IAnimal animal){
-        TreeSet<IAnimal> cell = new TreeSet<IAnimal>(Comparator .comparing(IAnimal::getEnergy));
+        TreeSet<IAnimal> cell = new TreeSet<IAnimal>(Comparator .comparing(IAnimal::getEnergy) .thenComparing(IAnimal::hashCode));
         if(this.animals.get(animal.getPosition()) != null){
             cell = this.animalsAt(animal.getPosition());
         }
@@ -157,6 +161,8 @@ public abstract class AbstractMap implements IMap, IWorldMap{
     protected void teleportTheAnimalBackFromTheAbbys(IAnimal animal){
         Integer x = animal.getPosition().x;
         Integer y = animal.getPosition().y;
-        animal.setPosition(new Vector2d(x % this.upperRight.x, y % this.upperRight.y));
+        animal.setPosition(new Vector2d(
+                (x + this.upperRight.x+1) % (this.upperRight.x+1),
+                (y + this.upperRight.y+1) % (this.upperRight.y+1)));
     }
 }
