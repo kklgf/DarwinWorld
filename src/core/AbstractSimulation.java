@@ -1,23 +1,17 @@
 package core;
 
-import core.elements.Animal;
-import core.elements.features.Gen;
 import core.maps.Map;
-import core.utils.MyRandom;
-import core.utils.Vector2d;
-
-import java.util.concurrent.TimeUnit;
 
 public abstract class AbstractSimulation implements ISimulation{
 
     protected Map map;
     protected Integer turnOfSimulation;
+    protected Integer numberOfSimulatedTurns;
 
     @Override
     public void start(boolean show) throws Exception {
-        while (true){
+        for(int i = 0; i < numberOfSimulatedTurns; i++){
             this.nextTurn(show);
-//            TimeUnit.MINUTES.sleep(1);
         }
     }
 
@@ -29,6 +23,7 @@ public abstract class AbstractSimulation implements ISimulation{
         map.multiply();
         map.clean();
         map.createFood();
+        this.turnOfSimulation ++;
         if (show){
             System.out.println(this);
         }

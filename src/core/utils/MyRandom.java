@@ -30,7 +30,7 @@ public class MyRandom {
         return randomList;
     }
 
-    public static Orientation getRandomOrientation() throws Exception {
+    public static Orientation getRandomOrientation() throws IllegalArgumentException {
         Random rand = new Random();
         return Orientation.fromInt(rand.nextInt(8));
     }

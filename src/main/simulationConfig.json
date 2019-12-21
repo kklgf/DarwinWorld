@@ -1,11 +1,13 @@
 {
-  'foo':'bar',
-  'coolness':2.0,
-  'altitude':39000,
-  'pilot':
-  {
-    'firstName':'Buzz',
-    'lastName':'Aldrin'
-  },
-  'mission':'apollo 11'
+  'width': 10,
+  'height': 10,
+  'jungleProportions': 0.4,
+  'newGrassPerDay': 10,
+  'plantPower': 10,
+  'startingFood': 10,
+  'initialNumberOfAnimals': 10,
+  'animalStartingEnergy': 100,
+  'energyNeededToMultiply': 30,
+  'dailyEnergyLoss': 3,
+  'numberOfSimulatedTurns': 10
 }

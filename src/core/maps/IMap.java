@@ -9,6 +9,6 @@ public interface IMap {
     public void eat();
     public void multiply() throws Exception;
     public void clean();
-    public void createFood(Integer amount);
+    public void createFood();
     public void addAnimal(IAnimal animal);
 }

@@ -1,8 +1,12 @@
 package core.maps;
 
+import core.elements.Animal;
 import core.elements.IAnimal;
 import core.elements.IMapElement;
 import core.elements.IPlant;
+import core.elements.features.Gen;
+import core.elements.features.Orientation;
+import core.utils.MyRandom;
 import core.utils.Vector2d;
 
 import java.util.*;
@@ -14,7 +18,7 @@ public abstract class AbstractMap implements IMap, IWorldMap{
     protected HashMap<Vector2d, ArrayList<IPlant>> plants;
     protected MapVisualizer mapVision;
 
-    public AbstractMap(Integer width, Integer height){
+    public AbstractMap(Integer width, Integer height) throws Exception {
         this.upperRight = new Vector2d(width, height);
         this.mapVision = new MapVisualizer(this);
         this.animals = new HashMap<Vector2d, TreeSet<IAnimal>>();
@@ -78,11 +82,15 @@ public abstract class AbstractMap implements IMap, IWorldMap{
     }
 
     public void clean(){
-        for (Vector2d cell : new ArrayList<Vector2d>(this.animals.keySet())){ // za szybko usuwana celka w 82?
-            for (IAnimal animal : new TreeSet<IAnimal>(this.animalsAt(cell))){
-                if (! animal.aliveAfterThisDay()){
-                    this.removeAnimal(animal);
-                }
+        for (Vector2d cell : new ArrayList<Vector2d>(this.animals.keySet())){
+            try {
+                for (IAnimal animal : new TreeSet<IAnimal>(this.animalsAt(cell))){
+                    if (! animal.aliveAfterThisDay()){
+                        this.removeAnimal(animal);
+                    }
+                }// za szybko usuwana celka w 82?
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

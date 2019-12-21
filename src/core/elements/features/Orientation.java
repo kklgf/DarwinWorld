@@ -14,7 +14,7 @@ public enum Orientation {
 
 
 
-    public static Orientation fromInt(Integer arg) throws Exception {
+    public static Orientation fromInt(Integer arg) throws IllegalArgumentException {
         switch (arg) {
             case 0:
                 return N;
@@ -33,7 +33,7 @@ public enum Orientation {
             case 7:
                 return NW;
             default:
-                throw new Exception("Unexpected value of Orientation -> fromInt");
+                throw new IllegalArgumentException("Unexpected value of Orientation -> fromInt");
         }
     }
     public Integer toInt() throws Exception {
@@ -62,21 +62,21 @@ public enum Orientation {
     public Vector2d toUnitVector() throws Exception {
         switch (this) {
             case N:
-                return new Vector2d(1,0);
+                return new Vector2d(0,1);
             case NE:
                 return new Vector2d(1,1);
             case E:
-                return new Vector2d(0,1);
+                return new Vector2d(1,0);
             case SE:
-                return new Vector2d(-1,1);
+                return new Vector2d(1,-1);
             case S:
-                return new Vector2d(-1,0);
+                return new Vector2d(0,-1);
             case SW:
                 return new Vector2d(-1,-1);
             case W:
-                return new Vector2d(0,-1);
+                return new Vector2d(-1,0);
             case NW:
-                return new Vector2d(1,-1);
+                return new Vector2d(-1,1);
             default:
                 throw new Exception("Unexpected value of Orientation -> toUnitVector");
         }
