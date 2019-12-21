@@ -36,17 +36,17 @@ public abstract class AbstractMap implements IMap, IWorldMap{
         ArrayList<TreeSet<IAnimal>> animalsSnap = new ArrayList<TreeSet<IAnimal>>(animals.values());
         for (TreeSet<IAnimal> animalsInCell : animalsSnap)
             for (IAnimal animal : new TreeSet<IAnimal>(animalsInCell)){
-                removeAnimal(animal);
+                this.removeAnimal(animal);
                 animal.move();
                 if (this.didThisAnimalJustJumpedFromTheEdgeOfTheWolrd(animal))
                     this.teleportTheAnimalBackFromTheAbbys(animal);
-                addAnimal(animal);
+                this.addAnimal(animal);
             }
     }
     public void eat() {
         for (Vector2d cellsWithPlants : new ArrayList<Vector2d>(plants.keySet())) {
-            if (animals.get(cellsWithPlants) != null){
-                for (IAnimal animal : animals.get(cellsWithPlants)) {
+            if (this.animalsAt(cellsWithPlants) != null){
+                for (IAnimal animal : this.animalsAt(cellsWithPlants)) {
                     IPlant eatenPlant = animal.eat(plants.get(cellsWithPlants));
                     this.removePlant(eatenPlant);
                     if (this.plantsAt(cellsWithPlants) == null)
@@ -78,8 +78,8 @@ public abstract class AbstractMap implements IMap, IWorldMap{
     }
 
     public void clean(){
-        for (Vector2d cell : new ArrayList<Vector2d>(this.animals.keySet())){
-            for (IAnimal animal : this.animalsAt(cell)){
+        for (Vector2d cell : new ArrayList<Vector2d>(this.animals.keySet())){ // za szybko usuwana celka w 82?
+            for (IAnimal animal : new TreeSet<IAnimal>(this.animalsAt(cell))){
                 if (! animal.aliveAfterThisDay()){
                     this.removeAnimal(animal);
                 }
@@ -136,18 +136,23 @@ public abstract class AbstractMap implements IMap, IWorldMap{
     }
 
     protected void removeAnimal(IAnimal animal){
-        TreeSet<IAnimal> cell = this.animals.get(animal.getPosition());
-        if(cell.size() == 1){
-            this.animals.remove(animal.getPosition());
-        } else {
-            cell.remove(animal);
-            this.animals.replace(animal.getPosition(), cell);
+        TreeSet<IAnimal> cell = this.animalsAt(animal.getPosition());
+        try{
+            if(cell.size() == 1){
+                this.animals.remove(animal.getPosition());
+            } else {
+                cell.remove(animal);
+                this.animals.replace(animal.getPosition(), cell);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     public void addAnimal(IAnimal animal){
         TreeSet<IAnimal> cell = new TreeSet<IAnimal>(Comparator .comparing(IAnimal::getEnergy) .thenComparing(IAnimal::hashCode));
-        if(this.animals.get(animal.getPosition()) != null){
+        if(this.animalsAt(animal.getPosition()) != null){
             cell = this.animalsAt(animal.getPosition());
         }
         cell.add(animal);

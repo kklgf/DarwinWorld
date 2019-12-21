@@ -16,7 +16,7 @@ public class Map extends AbstractMap{
         if (width < jungleWidth || height < jungleHeight){
             throw new IllegalArgumentException("Jungle can't have bigger dimensions than whole map.");
         }
-        this.jungleLowerLeft = new Vector2d((width - jungleWidth)/2, (height - jungleHeight)/2);
+        this.jungleLowerLeft = new Vector2d((width - jungleWidth+1)/2, (height - jungleHeight+1)/2);
         this.jungleUpperRight = new Vector2d((width + jungleWidth)/2, (height + jungleHeight)/2);
         this.newGrassPerDayInJungle = newGrassPerDay / 2;
         this.newGrassPerDayOutsideJungle = newGrassPerDay - this.newGrassPerDayInJungle;
