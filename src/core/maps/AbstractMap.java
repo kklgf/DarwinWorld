@@ -82,10 +82,10 @@ public abstract class AbstractMap implements IMap, IWorldMap{
     }
 
     public void clean(){
-        for (Vector2d cell : new ArrayList<Vector2d>(this.animals.keySet())){
+        for (TreeSet<IAnimal> cell : new ArrayList<TreeSet<IAnimal>>(this.animals.values())){
             try {
-                for (IAnimal animal : new TreeSet<IAnimal>(this.animalsAt(cell))){
-                    if (! animal.aliveAfterThisDay()){
+                for (IAnimal animal : new TreeSet<IAnimal>(cell)){
+                    if (!animal.aliveAfterThisDay()){
                         this.removeAnimal(animal);
                     }
                 }// za szybko usuwana celka w 82?
@@ -154,7 +154,18 @@ public abstract class AbstractMap implements IMap, IWorldMap{
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            for(Vector2d animalKey : new ArrayList<Vector2d>(animals.keySet())){
+                for (IAnimal animalTmp : new TreeSet<IAnimal>(this.animalsAt(animalKey))){
+                    if (animalTmp.getPosition() != animalKey){
+                        TreeSet<IAnimal> brokenCell = this.animals.get(animalKey);
+                        brokenCell.remove(animalTmp);
+                        this.animals.replace(animalKey, brokenCell);
+                        if (animalTmp.getEnergy() > 0){
+                            addAnimal(animalTmp);
+                        }
+                    }
+                }
+            }
         }
     }
 

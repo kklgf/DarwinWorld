@@ -2,6 +2,8 @@ package core;
 
 import core.maps.Map;
 
+import java.io.IOException;
+
 public abstract class AbstractSimulation implements ISimulation{
 
     protected Map map;
@@ -12,6 +14,9 @@ public abstract class AbstractSimulation implements ISimulation{
     public void start(boolean show) throws Exception {
         for(int i = 0; i < numberOfSimulatedTurns; i++){
             this.nextTurn(show);
+            if (i % 100 == 0){
+                System.out.print(i);
+            }
         }
     }
 
@@ -28,5 +33,4 @@ public abstract class AbstractSimulation implements ISimulation{
             System.out.println(this);
         }
     }
-
 }

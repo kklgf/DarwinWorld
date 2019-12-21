@@ -82,7 +82,7 @@ public abstract class AbstractAnimal implements IAnimal {
     @Override
     public boolean aliveAfterThisDay() {
         this.energy -= this.dailyEnergyLoss;
-        return this.energy > 0;
+        return (this.energy > 0);
     }
 
     @Override

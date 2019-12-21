@@ -1,13 +1,13 @@
 {
-  'width': 10,
-  'height': 10,
+  'width': 2,
+  'height': 2,
   'jungleProportions': 0.4,
-  'newGrassPerDay': 10,
-  'plantPower': 10,
-  'startingFood': 10,
-  'initialNumberOfAnimals': 10,
-  'animalStartingEnergy': 100,
+  'newGrassPerDay': 3,
+  'plantPower': 100,
+  'startingFood': 1,
+  'initialNumberOfAnimals': 20,
+  'animalStartingEnergy': 10,
   'energyNeededToMultiply': 30,
   'dailyEnergyLoss': 3,
-  'numberOfSimulatedTurns': 10
+  'numberOfSimulatedTurns': 1000
 }
